@@ -27,7 +27,7 @@ export default {
 		};
 	},
 	methods: {
-		editorChange() {
+		editorChange(v) {
 		},
 	},
 	components: {
