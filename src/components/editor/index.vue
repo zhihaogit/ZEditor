@@ -10,8 +10,10 @@
 		<div
 			class="editor-container__operation"
 		>
-			<el-button>
-				123
+			<el-button
+				@click="utilsExecCommand('indent')"
+			>
+				Indent
 			</el-button>
 		</div>
 		<div
@@ -41,6 +43,9 @@ export default {
 			this.innerHTML = this.$refs.boardRef.innerHTML;
 			this.$emit('input', this.$refs.boardRef.innerHTML);
 			this.$emit('change', this.$refs.boardRef.innerHTML);
+		},
+		utilsExecCommand(aCommandName, aValueArgument) {
+			document.execCommand(aCommandName, false, aValueArgument);
 		},
 	}
 }
