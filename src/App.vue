@@ -1,19 +1,16 @@
 <template>
   <div id="app">
-    <ZEditor/>
+    <Demo/>
   </div>
 </template>
 
 <script>
-import ZEditor from './components/editor'
+import Demo from './pages/demo'
 
 export default {
   name: 'app',
   components: {
-    ZEditor
+    Demo
   }
 }
 </script>
-
-<style>
-</style>
