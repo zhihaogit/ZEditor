@@ -16,7 +16,7 @@
 				class="editor-container__operation-one"
 			>
 				<component
-					:is="_.template"
+					:is="_.template ? _.template : outputDefaultTemplate(_.templateParams)"
 				/>
 			</div>
 		</div>
@@ -43,75 +43,37 @@ export default {
 			operationOptions: [
 				{
 					type: 'indent',
-					template: {
-						render: () => {
-							const handler = vm.utilsExecCommand.bind(vm, 'indent');
-
-							return <el-button
-								type="text"
-								class="btn-one"
-								onClick={ handler }
-							>
-								<SvgIcon
-									id="#iconcc-indent-decrease"
-								/>
-							</el-button>;
-						}
-					}
+					template: null,
+					templateParams: {
+						type: 'indent',
+						id: '#iconcc-indent-decrease'
+					},
 				},
 				{
 					type: 'bold',
-					template: {
-						render: () => {
-							const handler = vm.utilsExecCommand.bind(vm, 'bold');
-
-							return <el-button
-								type="text"
-								class="btn-one font-size__16"
-								onClick={ handler }
-							>
-								<SvgIcon
-									id="#iconbold"
-								/>
-							</el-button>;
-						}
-					}
+					template: null,
+					templateParams: {
+						type: 'bold',
+						id: '#iconbold',
+						className: 'font-size__16'
+					},
 				},
 				{
 					type: 'italic',
-					template: {
-						render: () => {
-							const handler = vm.utilsExecCommand.bind(vm, 'italic');
-
-							return <el-button
-								type="text"
-								class="btn-one"
-								onClick={ handler }
-							>
-								<SvgIcon
-									id="#iconitaly"
-								/>
-							</el-button>;
-						}
-					}
+					template: null,
+					templateParams: {
+						type: 'italic',
+						id: '#iconitaly'
+					},
 				},
 				{
 					type: 'underline',
-					template: {
-						render: () => {
-							const handler = vm.utilsExecCommand.bind(vm, 'underline');
-
-							return <el-button
-								type="text"
-								class="btn-one font-size__16"
-								onClick={ handler }
-							>
-								<SvgIcon
-									id="#iconunderline"
-								/>
-							</el-button>;
-						}
-					}
+					template: null,
+					templateParams: {
+						type: 'underline',
+						id: '#iconunderline',
+						className: 'font-size__16'
+					},
 				},
 				// {
 				// 	type: 'insertImage',
@@ -142,6 +104,28 @@ export default {
 		},
 		utilsExecCommand(aCommandName, aValueArgument) {
 			document.execCommand(aCommandName, false, aValueArgument);
+		},
+		outputDefaultTemplate({
+			type = '',
+			id = '',
+			className = ''
+		}) {
+			return {
+				render: () => {
+					const handler = this.utilsExecCommand.bind(this, type);
+					const defultClass = `btn-one ${className}`;
+
+					return <el-button
+						type="text"
+						class={ defultClass }
+						onClick={ handler }
+					>
+						<SvgIcon
+							id={ id }
+						/>
+					</el-button>;
+				}
+			}
 		},
 	}
 }
