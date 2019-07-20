@@ -75,24 +75,32 @@ export default {
 						className: 'font-size__16'
 					},
 				},
-				// {
-				// 	type: 'insertImage',
-				// 	template: {
-				// 		render: () => {
-				// 			const handler = vm.utilsExecCommand.bind(vm, 'insertImage');
-				//
-				// 			return <el-button
-				// 				type="text"
-				// 				class="btn-one"
-				// 				onClick={ handler }
-				// 			>
-				// 				<SvgIcon
-				// 					id="#iconinsert"
-				// 				/>
-				// 			</el-button>;
-				// 		}
-				// 	}
-				// },
+				{
+					type: 'insertImage',
+					template: {
+						render: () => {
+							// const handler = vm.utilsExecCommand.bind(vm, 'insertImage');
+
+							return <el-button
+								type="text"
+								class="btn-one"
+								// onClick={ handler }
+							>
+								<SvgIcon
+									id="#iconinsert"
+								/>
+								<input
+									// ref="insertImageRef"
+									type="file"
+									accept="image/*"
+									class="insert-image"
+									// class="display-none"
+									onChange={ vm.insertImageChange.bind(vm) }
+								/>
+							</el-button>;
+						}
+					}
+				},
 			]
 		};
 	},
@@ -102,30 +110,44 @@ export default {
 			this.$emit('input', this.$refs.boardRef.innerHTML);
 			this.$emit('change', this.$refs.boardRef.innerHTML);
 		},
+		// insertImage command官方手册标明支持 url,但也支持 base64
+		insertImageChange(e) {
+			const reader = new FileReader();
+			const file = e.target.files[0];
+			reader.onload = () => {
+				const base64Img = reader.result;
+				this.utilsExecCommand('insertImage', base64Img);
+				this.$refs.insertImageRef && (this.$refs.insertImageRef.value = '');
+				// document.querySelector('.insert-image input').value = '';
+			};
+			reader.readAsDataURL(file);
+		},
 		utilsExecCommand(aCommandName, aValueArgument) {
+			this.$refs.boardRef.focus();
 			document.execCommand(aCommandName, false, aValueArgument);
 		},
 		outputDefaultTemplate({
 			type = '',
 			id = '',
-			className = ''
+			className = '',
+			handler = null,
 		}) {
 			return {
 				render: () => {
-					const handler = this.utilsExecCommand.bind(this, type);
-					const defultClass = `btn-one ${className}`;
+					const defaultHandler = handler || this.utilsExecCommand.bind(this, type);
+					const defaultClass = `btn-one ${className}`;
 
-					return <el-button
+					return <ElButton
 						type="text"
-						class={ defultClass }
-						onClick={ handler }
+						class={ defaultClass }
+						onClick={ defaultHandler }
 					>
 						<SvgIcon
 							id={ id }
 						/>
-					</el-button>;
+					</ElButton>;
 				}
-			}
+			};
 		},
 	}
 }
@@ -177,5 +199,8 @@ export default {
 }
 .font-size__16 {
 	font-size: 16px!important;
+}
+.display-none {
+	display: none;
 }
 </style>
