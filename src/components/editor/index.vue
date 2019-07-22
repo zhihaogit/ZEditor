@@ -40,6 +40,18 @@ export default {
 	data(vm) {
 		return {
 			innerHTML: '',
+			imageOptionsList: [
+				{
+					id: 0,
+					symbol_id: '#iconLogfileupload',
+					content: 'Upload',
+				},
+				{
+					id: 1,
+					symbol_id: '#iconinsert',
+					content: 'link',
+				}
+			],
 			operationOptions: [
 				{
 					type: 'indent',
@@ -83,47 +95,44 @@ export default {
 					type: 'insertImage',
 					template: {
 						render: () => {
-							const handler = (id) => {
-								if (id === 0) return this.$refs.insertImageRef.click();
-							}
-							const optionsList = [
-								{
-									id: 0,
-									content: 'Upload',
-								},
-								{
-									id: 1,
-									content: 'link',
-								}
-							];
-							const dropdownSlot = optionsList.map(_ => (
-								<div
+							const dropdownSlot = vm.imageOptionsList.map(_ => (
+								<dropdown-item
 									key={ _.id }
-									onClick={ handler.bind(this, _.id) }
-								>{ _.content }</div>
+									command={ _.id }
+								>
+									<SvgIcon
+										class="inline-block padding-right__5px"
+										id={ _.symbol_id }
+									/>
+									<span
+										class="inline-block"
+									>{ _.content }</span>
+								</dropdown-item>
 							));
 
-							return <div>
-								<dropdown>
+							return <div
+							>
+								<dropdown
+									onCommand={ vm.imageDropDownCommand.bind(vm) }
+								>
 									<button
 										title="Insert Image"
+										class="btn-one insert-image__btn"
 										type="text"
-										class="btn-one"
 									>
 										<SvgIcon
 											id="#iconimage"
 										/>
 									</button>
-									<div slot="dropdown">
+									<span slot="dropdown">
 										{ dropdownSlot }
-									</div>
+									</span>
 								</dropdown>
 								<input
 									ref="insertImageRef"
 									type="file"
 									accept="image/*"
-									class="insert-image"
-									class="display-none"
+									class="insert-image display-none"
 									onChange={ vm.insertImageChange.bind(vm) }
 								/>
 							</div>;
@@ -138,6 +147,9 @@ export default {
 			this.innerHTML = this.$refs.boardRef.innerHTML;
 			this.$emit('input', this.$refs.boardRef.innerHTML);
 			this.$emit('change', this.$refs.boardRef.innerHTML);
+		},
+		imageDropDownCommand(command) {
+			if (command === 0) return this.$refs.insertImageRef.click();
 		},
 		// insertImage command官方手册标明支持 url,但也支持 base64
 		insertImageChange(e) {
@@ -227,6 +239,9 @@ export default {
 		border-top-left-radius: 0px;
 		border-top-right-radius: 0px;
 	}
+	.insert-image__btn {
+		padding: 4px 10px 5px 10px;
+	}
 }
 .cursor-pointer {
 	cursor: pointer;
@@ -236,5 +251,11 @@ export default {
 }
 .display-none {
 	display: none;
+}
+.inline-block {
+	display: inline-block;
+}
+.padding-right__5px {
+	padding-right: 5px;
 }
 </style>
