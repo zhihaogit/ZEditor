@@ -46,7 +46,8 @@ export default {
 					template: null,
 					templateParams: {
 						type: 'indent',
-						id: '#iconcc-indent-decrease'
+						id: '#iconcc-indent-decrease',
+						title: 'Indent',
 					},
 				},
 				{
@@ -55,7 +56,8 @@ export default {
 					templateParams: {
 						type: 'bold',
 						id: '#iconbold',
-						className: 'font-size__16'
+						className: 'font-size__16',
+						title: 'Bold',
 					},
 				},
 				{
@@ -63,7 +65,8 @@ export default {
 					template: null,
 					templateParams: {
 						type: 'italic',
-						id: '#iconitaly'
+						id: '#iconitaly',
+						title: 'Italic',
 					},
 				},
 				{
@@ -72,32 +75,58 @@ export default {
 					templateParams: {
 						type: 'underline',
 						id: '#iconunderline',
-						className: 'font-size__16'
+						className: 'font-size__16',
+						title: 'Underline',
 					},
 				},
 				{
 					type: 'insertImage',
 					template: {
 						render: () => {
-							// const handler = vm.utilsExecCommand.bind(vm, 'insertImage');
+							const handler = (id) => {
+								if (id === 0) return this.$refs.insertImageRef.click();
+							}
+							const optionsList = [
+								{
+									id: 0,
+									content: 'Upload',
+								},
+								{
+									id: 1,
+									content: 'link',
+								}
+							];
+							const dropdownSlot = optionsList.map(_ => (
+								<div
+									key={ _.id }
+									onClick={ handler.bind(this, _.id) }
+								>{ _.content }</div>
+							));
 
-							return <el-button
-								type="text"
-								class="btn-one"
-								// onClick={ handler }
-							>
-								<SvgIcon
-									id="#iconinsert"
-								/>
+							return <div>
+								<dropdown>
+									<button
+										title="Insert Image"
+										type="text"
+										class="btn-one"
+									>
+										<SvgIcon
+											id="#iconimage"
+										/>
+									</button>
+									<div slot="dropdown">
+										{ dropdownSlot }
+									</div>
+								</dropdown>
 								<input
-									// ref="insertImageRef"
+									ref="insertImageRef"
 									type="file"
 									accept="image/*"
 									class="insert-image"
-									// class="display-none"
+									class="display-none"
 									onChange={ vm.insertImageChange.bind(vm) }
 								/>
-							</el-button>;
+							</div>;
 						}
 					}
 				},
@@ -112,12 +141,13 @@ export default {
 		},
 		// insertImage command官方手册标明支持 url,但也支持 base64
 		insertImageChange(e) {
+			// this.$refs.insertImageRef && (this.$refs.insertImageRef.value = null);
 			const reader = new FileReader();
 			const file = e.target.files[0];
 			reader.onload = () => {
 				const base64Img = reader.result;
 				this.utilsExecCommand('insertImage', base64Img);
-				this.$refs.insertImageRef && (this.$refs.insertImageRef.value = '');
+				// this.$refs.insertImageRef && (this.$refs.insertImageRef.value = '');
 				// document.querySelector('.insert-image input').value = '';
 			};
 			reader.readAsDataURL(file);
@@ -131,13 +161,15 @@ export default {
 			id = '',
 			className = '',
 			handler = null,
+			title = '',
 		}) {
 			return {
 				render: () => {
 					const defaultHandler = handler || this.utilsExecCommand.bind(this, type);
 					const defaultClass = `btn-one ${className}`;
 
-					return <ElButton
+					return <button
+						title={ title }
 						type="text"
 						class={ defaultClass }
 						onClick={ defaultHandler }
@@ -145,7 +177,7 @@ export default {
 						<SvgIcon
 							id={ id }
 						/>
-					</ElButton>;
+					</button>;
 				}
 			};
 		},
@@ -180,6 +212,8 @@ export default {
 			color: #409EFF;
 			font-weight: 600;
 			font-size: 18px;
+			background-color: #fff;
+			border: none;
 			&:hover {
 				background-color: #ecf5ff;
 			}

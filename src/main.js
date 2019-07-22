@@ -1,15 +1,14 @@
 import Vue from 'vue';
 import App from './App.vue';
 import SvgIcon from '@/components/svg_icon';
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import Dropdown from '@/components/dropdown';
 import '@/assets/less/base.less';
+import utils from '@/utils';
 
+Vue.prototype.$utils = utils;
 Vue.config.productionTip = false;
-Vue.use(ElementUI, {
-	size: 'small'
-});
 Vue.component('SvgIcon', SvgIcon);
+Vue.component('Dropdown', Dropdown);
 
 new Vue({
   render: h => h(App),
