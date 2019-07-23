@@ -34,7 +34,9 @@
 
 <style lang="less" scoped>
 	.item-one {
+		position: relative;
 		padding: 5px;
+		background-color: #fff;
 		&:hover {
 			background-color: #ecf5ff;
 		}

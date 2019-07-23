@@ -110,8 +110,7 @@ export default {
 								</dropdown-item>
 							));
 
-							return <div
-							>
+							return <div>
 								<dropdown
 									onCommand={ vm.imageDropDownCommand.bind(vm) }
 								>

@@ -58,6 +58,7 @@
 		&__content {
 			background-color: #fff;
 			font-size: 13px;
+			z-index: 9999;
 		}
 		&__open {
 			display: block;
