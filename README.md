@@ -1,3 +1,3 @@
-# editor
+# Editor
 
-## the editor based vue
+## The editor based vue
