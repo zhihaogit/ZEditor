@@ -1,39 +1,3 @@
-<template>
-	<div
-		v-show="visible"
-		class="dialog__wrapper"
-		@click.self="handleWrapperClick"
-	>
-		<div
-			class="dialog__content"
-		>
-			<div
-				class="dialog__content-header"
-			>
-				<div class="dialog__content-header__title">
-					<slot name="title">
-						<span>{{ title }}</span>
-					</slot>
-				</div>
-				<div
-					class="dialog__content-header__close icon-close"
-					@click="handleClose"
-				/>
-			</div>
-			<div class="dialog__content-main">
-				<slot
-				/>
-			</div>
-			<div
-				v-if="$slots.footer"
-				class="dialog__content-footer"
-			>
-				<slot name="footer"></slot>
-			</div>
-		</div>
-	</div>
-</template>
-
 <script>
 	export default {
 		name: 'MyDialog',
@@ -60,9 +24,42 @@
 					? this.beforeClose(this.hide())
 					: this.hide();
 			},
-			handleWrapperClick() {
+			handleWrapperClick(event) {
+				if (event.target !== event.currentTarget) return;
 				this.handleClose();
 			},
+		},
+		render() {
+			const showClass = `dialog__wrapper ${ this.visible ? 'display-block' : 'display-none' }`;
+			const footer = this.$slots.footer ?  <div
+				class="dialog__content-footer"
+			>
+				{ this.$slots.footer }
+			</div> : '';
+			return <div
+				class={ showClass }
+				onClick={ this.handleWrapperClick.bind(this)}
+			>
+				<div
+					class="dialog__content"
+				>
+					<div
+						class="dialog__content-header"
+					>
+						<div class="dialog__content-header__title">
+							{ this.$slots.title || this.title }
+						</div>
+						<div
+							class="dialog__content-header__close icon-close"
+							onClick={ this.handleClose.bind(this) }
+						/>
+					</div>
+					<div class="dialog__content-main">
+						{ this.$slots.default }
+					</div>
+					{ footer }
+				</div>
+			</div>
 		},
 	};
 </script>
@@ -78,7 +75,6 @@
 		width: 100%;
 		height: 100%;
 		background-color: rgba(0,0,0,.3);
-		// opacity: 0.5;
 		overflow: auto;
 	}
 	&__content {
@@ -108,7 +104,14 @@
 		}
 		&-footer {
 			padding: 10px 15px;
+			text-align: right;
 		}
 	}
+}
+.display-none {
+	display: none;
+}
+.display-block {
+	display: block;
 }
 </style>

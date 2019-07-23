@@ -30,8 +30,31 @@
 		</div>
 		<my-dialog
 			ref="dialogRef"
+			:title="dialogTitle"
 			:visible.sync="dialogVisible"
-		/>
+			@close="dialogClose"
+		>
+			<div>
+				<div>
+					Link
+				</div>
+				<input
+					v-model="linkInputValue"
+					type="text"
+					name="linkInput"
+				>
+			</div>
+			<div slot="footer">
+				<button
+					type="button"
+					name="linkButton"
+					class="my-btn__mini"
+					@click="useLinkInputValueClick"
+				>
+					Use
+				</button>
+			</div>
+		</my-dialog>
 	</div>
 </template>
 
@@ -45,6 +68,8 @@ export default {
 		return {
 			innerHTML: '',
 			dialogVisible: false,
+			dialogTitle: 'Use Link',
+			linkInputValue: '',
 			imageOptionsList: [
 				{
 					id: 0,
@@ -203,6 +228,14 @@ export default {
 				}
 			};
 		},
+		useLinkInputValueClick() {
+			this.utilsExecCommand('insertImage', this.linkInputValue);
+			this.dialogClose();
+		},
+		dialogClose() {
+			this.dialogVisible = false;
+			this.linkInputValue = '';
+		}
 	}
 }
 </script>
