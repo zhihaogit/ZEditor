@@ -1,6 +1,6 @@
 <script>
 	export default {
-		componentName: 'Dropdown',
+		name: 'Dropdown',
 		provide() {
 			return {
 				dropdown: this,

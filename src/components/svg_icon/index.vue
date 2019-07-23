@@ -15,7 +15,7 @@
 
 <script>
 export default {
-	componentName: 'SvgIcon',
+	name: 'SvgIcon',
 	props: {
 		id: {
 			type: String,

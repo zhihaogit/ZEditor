@@ -1,6 +1,6 @@
 <script>
 	export default {
-		componentName: 'DropdownItem',
+		name: 'DropdownItem',
 		inject: ['dropdown'],
 		props: {
 			command: {

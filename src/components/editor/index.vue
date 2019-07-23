@@ -28,6 +28,10 @@
 		>
 
 		</div>
+		<my-dialog
+			ref="dialogRef"
+			:visible.sync="dialogVisible"
+		/>
 	</div>
 </template>
 
@@ -40,6 +44,7 @@ export default {
 	data(vm) {
 		return {
 			innerHTML: '',
+			dialogVisible: false,
 			imageOptionsList: [
 				{
 					id: 0,
@@ -94,6 +99,7 @@ export default {
 				{
 					type: 'insertImage',
 					template: {
+						name: 'insertImage',
 						render: () => {
 							const dropdownSlot = vm.imageOptionsList.map(_ => (
 								<dropdown-item
@@ -149,6 +155,10 @@ export default {
 		},
 		imageDropDownCommand(command) {
 			if (command === 0) return this.$refs.insertImageRef.click();
+			if (command === 1) return this.handleOpenDialog();
+		},
+		handleOpenDialog() {
+			this.dialogVisible = true;
 		},
 		// insertImage command官方手册标明支持 url,但也支持 base64
 		insertImageChange(e) {
@@ -175,6 +185,7 @@ export default {
 			title = '',
 		}) {
 			return {
+				name: type,
 				render: () => {
 					const defaultHandler = handler || this.utilsExecCommand.bind(this, type);
 					const defaultClass = `btn-one ${className}`;
