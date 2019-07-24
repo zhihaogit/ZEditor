@@ -35,8 +35,10 @@
 			@close="dialogClose"
 		>
 			<div>
-				<alert>
-				</alert>
+				<alert
+					v-if="warnnigMessage"
+					:title="warnnigMessage"
+				/>
 				<div>
 					Link
 				</div>
@@ -72,6 +74,7 @@ export default {
 			dialogVisible: false,
 			dialogTitle: 'Use Link',
 			linkInputValue: '',
+			warnnigMessage: '',
 			imageOptionsList: [
 				{
 					id: 0,
@@ -231,7 +234,16 @@ export default {
 			};
 		},
 		useLinkInputValueClick() {
-			this.linkInputValue && this.utilsExecCommand('insertImage', this.linkInputValue);
+			if (!this.linkInputValue) {
+				return this.warnnigMessage = 'The link is required';
+			}
+			if (!/^(ftp|https?):\/\/+(www\.)?[a-z0-9\-.]{3,}\.[a-z]{3}$/.test(this.linkInputValue)) {
+				return this.warnnigMessage = 'The link is not a url';
+			}
+			if (this.linkInputValue) {
+				this.utilsExecCommand('insertImage', this.linkInputValue);
+				this.warnnigMessage = '';
+			}
 			this.dialogClose();
 		},
 		dialogClose() {
