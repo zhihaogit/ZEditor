@@ -16,7 +16,7 @@
 				class="editor-container__operation-one"
 			>
 				<component
-					:is="_.template ? _.template : outputDefaultTemplate(_.templateParams)"
+					:is="_.template || outputDefaultTemplate(_.templateParams)"
 				/>
 			</div>
 		</div>
@@ -35,6 +35,8 @@
 			@close="dialogClose"
 		>
 			<div>
+				<alert>
+				</alert>
 				<div>
 					Link
 				</div>
@@ -229,7 +231,7 @@ export default {
 			};
 		},
 		useLinkInputValueClick() {
-			this.utilsExecCommand('insertImage', this.linkInputValue);
+			this.linkInputValue && this.utilsExecCommand('insertImage', this.linkInputValue);
 			this.dialogClose();
 		},
 		dialogClose() {

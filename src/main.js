@@ -4,6 +4,7 @@ import SvgIcon from '@/components/svg_icon';
 import Dropdown from '@/components/dropdown';
 import DropdownItem from '@/components/dropdown/dropdown_item';
 import MyDialog from '@/components/dialog';
+import Alert from '@/components/alert';
 import '@/assets/less/base.less';
 import utils from '@/utils';
 
@@ -13,6 +14,7 @@ Vue.component('SvgIcon', SvgIcon);
 Vue.component('Dropdown', Dropdown);
 Vue.component('DropdownItem', DropdownItem);
 Vue.component('MyDialog', MyDialog);
+Vue.component('Alert', Alert);
 
 new Vue({
   render: h => h(App),
