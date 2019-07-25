@@ -73,6 +73,7 @@ export default {
 			innerHTML: '',
 			dialogVisible: false,
 			dialogTitle: 'Use Link',
+			dialogFrom: '',
 			linkInputValue: '',
 			warnnigMessage: '',
 			imageOptionsList: [
@@ -174,7 +175,18 @@ export default {
 						}
 					}
 				},
-			]
+				{
+					type: 'createLink',
+					template: null,
+					templateParams: {
+						type: 'createLink',
+						id: '#iconinsert',
+						className: 'font-size__16',
+						title: 'Link',
+						handler: vm.handleOpenDialog.bind(vm, 'createLink'),
+					},
+				},
+			],
 		};
 	},
 	methods: {
@@ -185,10 +197,11 @@ export default {
 		},
 		imageDropDownCommand(command) {
 			if (command === 0) return this.$refs.insertImageRef.click();
-			if (command === 1) return this.handleOpenDialog();
+			if (command === 1) return this.handleOpenDialog('insertImage');
 		},
-		handleOpenDialog() {
+		handleOpenDialog(type) {
 			this.dialogVisible = true;
+			this.dialogFrom = type;
 		},
 		// insertImage command官方手册标明支持 url,但也支持 base64
 		insertImageChange(e) {
@@ -241,7 +254,7 @@ export default {
 				return this.warnnigMessage = 'The link is not a url';
 			}
 			if (this.linkInputValue) {
-				this.utilsExecCommand('insertImage', this.linkInputValue);
+				this.utilsExecCommand(this.dialogFrom, this.linkInputValue);
 				this.warnnigMessage = '';
 			}
 			this.dialogClose();
@@ -249,6 +262,7 @@ export default {
 		dialogClose() {
 			this.dialogVisible = false;
 			this.linkInputValue = '';
+			this.warnnigMessage = '';
 		}
 	}
 }

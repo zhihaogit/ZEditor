@@ -10,7 +10,7 @@
 			description: String,
 			closable: {
 				type: Boolean,
-				default: true,
+				default: false,
 			},
 			center: {
 				type: Boolean,
