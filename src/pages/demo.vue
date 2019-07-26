@@ -18,8 +18,6 @@
 </template>
 
 <script>
-import ZEditor from '@/components/editor';
-
 export default {
     data() {
         return {
@@ -29,9 +27,6 @@ export default {
     methods: {
         editorChange() {
         },
-    },
-    components: {
-        ZEditor,
     },
 };
 </script>

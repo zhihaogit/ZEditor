@@ -8,7 +8,9 @@ import Alert from '@/components/alert';
 import '@/assets/less/base.less';
 import utils from '@/utils';
 import '@/assets/js/iconfont';
+import ZEditor from '@/components/editor';
 
+Vue.use(ZEditor);
 Vue.prototype.$utils = utils;
 Vue.config.productionTip = false;
 Vue.component('SvgIcon', SvgIcon);
