@@ -1,38 +1,38 @@
 <template lang="html">
-	<div
-		class="board-container"
-	>
-		<z-editor
-			v-model="outputValue"
-			@change="editorChange"
-		/>
-		<div
-			class="board-title"
-		>
-			Output:
-		</div>
-		<div class="board-show">
-			{{ outputValue }}
-		</div>
-	</div>
+    <div
+        class="board-container"
+    >
+        <z-editor
+            v-model="outputValue"
+            @change="editorChange"
+        />
+        <div
+            class="board-title"
+        >
+            Output:
+        </div>
+        <div class="board-show">
+            {{ outputValue }}
+        </div>
+    </div>
 </template>
 
 <script>
-import ZEditor from '@/components/editor'
+import ZEditor from '@/components/editor';
 
 export default {
-	data() {
-		return {
-			outputValue: '',
-		};
-	},
-	methods: {
-		editorChange() {
-		},
-	},
-	components: {
-      ZEditor
-    }
+    data() {
+        return {
+            outputValue: '',
+        };
+    },
+    methods: {
+        editorChange() {
+        },
+    },
+    components: {
+        ZEditor,
+    },
 };
 </script>
 

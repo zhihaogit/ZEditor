@@ -1,67 +1,67 @@
 <script>
-	export default {
-		name: 'MyDialog',
-		props: {
-			visible: {
-				type: Boolean,
-				default: false,
-			},
-			beforeClose: Function,
-			title: String,
-		},
-		data() {
-			return {
+export default {
+    name: 'MyDialog',
+    props: {
+        visible: {
+            type: Boolean,
+            default: false,
+        },
+        beforeClose: Function,
+        title: String,
+    },
+    data() {
+        return {
 
-			};
-		},
-		methods: {
-			hide() {
-				this.$emit('update:visible', false);
-				this.$emit('close');
-			},
-			handleClose() {
-				return typeof this.beforeClose === 'function'
-					? this.beforeClose(this.hide())
-					: this.hide();
-			},
-			handleWrapperClick(event) {
-				if (event.target !== event.currentTarget) return;
-				this.handleClose();
-			},
-		},
-		render() {
-			const showClass = `dialog__wrapper ${ this.visible ? 'display-block' : 'display-none' }`;
-			const footer = this.$slots.footer ?  <div
-				class="dialog__content-footer"
-			>
-				{ this.$slots.footer }
-			</div> : '';
-			return <div
-				class={ showClass }
-				onClick={ this.handleWrapperClick.bind(this)}
-			>
-				<div
-					class="dialog__content"
-				>
-					<div
-						class="dialog__content-header"
-					>
-						<div class="dialog__content-header__title">
-							{ this.$slots.title || this.title }
-						</div>
-						<div
-							class="dialog__content-header__close icon-close"
-							onClick={ this.handleClose.bind(this) }
-						/>
-					</div>
-					<div class="dialog__content-main">
-						{ this.$slots.default }
-					</div>
-					{ footer }
-				</div>
-			</div>
-		},
-	};
+        };
+    },
+    methods: {
+        hide() {
+            this.$emit('update:visible', false);
+            this.$emit('close');
+        },
+        handleClose() {
+            return typeof this.beforeClose === 'function'
+                ? this.beforeClose(this.hide())
+                : this.hide();
+        },
+        handleWrapperClick(event) {
+            if (event.target !== event.currentTarget) {return;}
+            this.handleClose();
+        },
+    },
+    render() {
+        const showClass = `dialog__wrapper ${ this.visible ? 'display-block' : 'display-none' }`;
+        const footer = this.$slots.footer ?  <div
+            class="dialog__content-footer"
+        >
+            { this.$slots.footer }
+        </div> : '';
+        return <div
+            class={ showClass }
+            onClick={ this.handleWrapperClick.bind(this)}
+        >
+            <div
+                class="dialog__content"
+            >
+                <div
+                    class="dialog__content-header"
+                >
+                    <div class="dialog__content-header__title">
+                        { this.$slots.title || this.title }
+                    </div>
+                    <div
+                        class="dialog__content-header__close icon-close"
+                        onClick={ this.handleClose.bind(this) }
+                    />
+                </div>
+                <div class="dialog__content-main">
+                    { this.$slots.default }
+                </div>
+                { footer }
+            </div>
+        </div>;
+    },
+};
 </script>
 
 <style lang="less" scoped>

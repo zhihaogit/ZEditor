@@ -7,6 +7,7 @@ import MyDialog from '@/components/dialog';
 import Alert from '@/components/alert';
 import '@/assets/less/base.less';
 import utils from '@/utils';
+import '@/assets/js/iconfont';
 
 Vue.prototype.$utils = utils;
 Vue.config.productionTip = false;
@@ -17,5 +18,5 @@ Vue.component('MyDialog', MyDialog);
 Vue.component('Alert', Alert);
 
 new Vue({
-  render: h => h(App),
+    render: h => h(App),
 }).$mount('#app');
