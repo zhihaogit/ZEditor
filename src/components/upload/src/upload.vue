@@ -133,7 +133,7 @@ export default {
             }
         },
         // 手动调用，上传数据
-        handleUpload() {
+        manualUpload() {
             this.fileList.forEach(_ => {
                 this.upload(_.raw);
             });
