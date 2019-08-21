@@ -74,6 +74,7 @@ export default {
             dialogFrom: '',
             linkInputValue: '',
             warnnigMessage: '',
+            uploadFileList: [],
             imageOptionsList: [
                 {
                     id: 0,
@@ -213,6 +214,21 @@ export default {
                         id: '#iconcut-',
                         className: 'font-size__16',
                         title: 'Cut',
+                    },
+                },
+                {
+                    type: 'uploadFile',
+                    template: {
+                        name: 'uploadFile',
+                        render: () => {
+                            const updateFileList = function(v) {
+                                vm.uploadFileList = v;
+                            };
+                            return <upload
+                                value={vm.uploadFileList}
+                                onInput={updateFileList}
+                            />;
+                        },
                     },
                 },
             ],
