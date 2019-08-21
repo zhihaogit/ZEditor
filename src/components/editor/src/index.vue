@@ -75,6 +75,7 @@ export default {
             linkInputValue: '',
             warnnigMessage: '',
             uploadFileList: [],
+            actionUrl: '123',
             imageOptionsList: [
                 {
                     id: 0,
@@ -221,13 +222,36 @@ export default {
                     template: {
                         name: 'uploadFile',
                         render: () => {
-                            const updateFileList = function(v) {
+                            const updateFileListChange = function(v) {
                                 vm.uploadFileList = v;
+                                console.log(vm.uploadFileList);
                             };
-                            return <upload
-                                value={vm.uploadFileList}
-                                onInput={updateFileList}
-                            />;
+                            const useUpload = function() {
+                                vm.$refs.uploadRef.handleClick();
+                            };
+                            const uploadMethod = function() {
+                                vm.$refs.uploadRef.handleUpload();
+
+                            };
+                            return <div
+                            >
+                                <button
+                                    title="Insert Image"
+                                    class="btn-one insert-image__btn"
+                                    type="text"
+                                    onClick={useUpload}
+                                >
+                                    <SvgIcon
+                                        class="inline-block padding-right__5px"
+                                        id="#iconLogfileupload"
+                                    />
+                                </button>
+                                <upload
+                                    ref="uploadRef"
+                                    action={vm.actionUrl}
+                                    onChange={updateFileListChange}
+                                />
+                            </div>;
                         },
                     },
                 },

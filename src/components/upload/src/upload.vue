@@ -1,5 +1,6 @@
 <template>
     <div
+        class="display-none"
         @click="handleClick"
     >
         <input ref="uploadInput"
@@ -37,15 +38,29 @@ export default {
             type: String,
             required: true,
         },
-        onSuccess: Function,
-        onError: Function,
-        onProgress: Function,
+        onSuccess: {
+            type: Function,
+            default: () => {},
+        },
+        onError: {
+            type: Function,
+            default: () => {},
+        },
+        onProgress: {
+            type: Function,
+            default: () => {},
+        },
         headers: {
             type: Object,
+            default: () => ({}),
         },
         withCredentials: {
             type: Boolean,
             default: true,
+        },
+        name: {
+            type: String,
+            default: 'file',
         },
     },
     data() {
@@ -57,7 +72,6 @@ export default {
     methods: {
         uploadChange(e) {
             const files = e.target.files;
-            console.log(files);
             // 类数组转数组
             let postFiles = Array.prototype.slice.call(files);
             if (!this.multiple) { postFiles = postFiles.slice(0, 1); }
@@ -84,7 +98,9 @@ export default {
                 percentage: 0,
                 uid: rawFile.uid,
                 raw: rawFile,
+                file: rawFile.file,
             };
+            file.url = URL.createObjectURL(rawFile);
             this.fileList.push(file);
             this.$emit('change', this.fileList);
         },
@@ -112,9 +128,15 @@ export default {
         },
         handleClick() {
             if (!this.disabled) {
-                this.$refs.input.value = null;
-                this.$refs.input.click();
+                this.$refs.uploadInput.value = null;
+                this.$refs.uploadInput.click();
             }
+        },
+        // 手动调用，上传数据
+        handleUpload() {
+            this.fileList.forEach(_ => {
+                this.upload(_.raw);
+            });
         },
     },
 };
@@ -122,7 +144,7 @@ export default {
 
 <style scoped>
 .display-none {
-	/*display: none;*/
+	display: none;
 }
 </style>
 
